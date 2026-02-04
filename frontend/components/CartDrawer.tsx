@@ -2,6 +2,7 @@ import { ShoppingBag, Plus, Minus, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { CartItem } from "@/lib/data";
+import { useRouter } from "next/navigation";
 
 interface CartDrawerProps {
     open: boolean;
@@ -13,6 +14,7 @@ export function CartDrawer({ open, onOpenChange, items }: CartDrawerProps) {
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const logisticsFee = 0;
     const total = subtotal + logisticsFee;
+    const router = useRouter();
 
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
@@ -88,7 +90,7 @@ export function CartDrawer({ open, onOpenChange, items }: CartDrawerProps) {
                             <span className="font-bold text-xl text-primary">${total.toFixed(2)}</span>
                         </div>
                     </div>
-                    <Button className="w-full py-6 bg-primary text-white rounded-xl font-bold hover:shadow-lg hover:shadow-primary/20 transition-all flex items-center justify-center gap-2">
+                    <Button className="w-full py-6 bg-primary text-white rounded-xl font-bold hover:shadow-lg hover:shadow-primary/20 transition-all flex items-center justify-center gap-2" onClick={() => router.push("/checkout")}>
                         Checkout
                         <ArrowRight className="h-5 w-5" />
                     </Button>

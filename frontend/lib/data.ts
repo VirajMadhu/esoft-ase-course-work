@@ -102,3 +102,66 @@ export const cartItems: CartItem[] = [
         image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAyVYoVQMWeJeqvLF4-CXEWFo_lGdbq5aYhfwcri4--LgebZJec91LCZBNX7sjV1U57g24KDZfSDlMthGHC1kycRmMdWYF17fETOVKhq6sKF18UolWAD2lMXcRNmOLpSKmI7nPnkI8wzNHtEhpG71uZUM-8FcjNTLfCIN_XtoIx-DotsYTofSdwNGMI8RtMjWyar1UsSoMmEU8yQ65LhkdpB5t4nbGRHZT45zA_7DXHS2wAgBXs97iOKq30dyNCFaSoyF-aPGNDWEU",
     },
 ];
+
+export interface NavItem {
+    label: string
+    href: string
+}
+
+export interface OrderItem {
+    id: string
+    name: string
+    variant: string
+    qty: number
+    price: number
+    image: string
+}
+
+export const navItems: NavItem[] = [
+    { label: "Shop", href: "#" },
+    { label: "Orders", href: "#" },
+    { label: "Account", href: "#" },
+]
+
+export const orderItems: OrderItem[] = [
+    {
+        id: "water-001",
+        name: "Sparkling Mineral Water",
+        variant: "Case (24)",
+        qty: 2,
+        price: 2.4,
+        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDQtUf0pRw3wR4TvOEt92SGTCMCMHVagGLDL1ZNZem3jOjVnH6j95IDA690M4s4YCF7NQ2XZuiOsDsi8gsofMJ68nne3jfitsg2JP-Y6x-4mNKQEE15kQdxUiOBxhqZanBXAdIfkERuzSXmGodKl67c3YyPZxEV5UBFurlMOui9RaJqIpIFWdI0WhJzQJsEb-p7yZgDeNq-cr6itsNCakVSJOwpv1YFTNVPigZvtYYoPgGxq4dvAWjMDBtDN0J-IrZoGlgjV7DoclM",
+    },
+    {
+        id: "coffee-002",
+        name: "Highland Arabica Beans",
+        variant: "1kg Bag",
+        qty: 1,
+        price: 15.5,
+        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA7Qg6P9Ly6VTM96DboRFCku4SIn_E_qrIaWrvewR7lXduD-1iktti6Qi7hDzvndAZiANzf-ytW52ND2Wvl0QzRcOkrgsVZ2ywH9xskJrFhVa3EWIApdxUsqcPegjz4ms7DO9ktOmcM3Uv3NGVweLx7lxi3p1LlKMTpctlBfDzcijMyDLr03zy6Gme8hnh9I_lowEsv8XjCZL3UKGY8EbA4iPcw5XlYjzQUhtzZ0gsL7AfQZOYyHji4VocbQ_BQm7s7FsS6ONNLTUE",
+    },
+]
+
+
+export interface OrderSummary {
+    orderId: string
+    status: "CONFIRMED" | "PENDING" | "CANCELLED"
+    itemsTotal: number
+    logisticsFee: number
+    totalAmount: number
+    paymentMethod: "COD"
+}
+
+export const orderSuccessData: OrderSummary = {
+    orderId: "IL-89234",
+    status: "CONFIRMED",
+    itemsTotal: 17.9,
+    logisticsFee: 0,
+    totalAmount: 17.9,
+    paymentMethod: "COD",
+}
+
+export const successActions = {
+    viewOrderHref: "/orders/IL-89234",
+    continueShoppingHref: "/shop",
+}

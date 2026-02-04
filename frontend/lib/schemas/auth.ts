@@ -76,8 +76,19 @@ export const resetPasswordSchema = z
         path: ["confirmPassword"],
     });
 
+/**
+* Forgot Password Form Schema
+*/
+export const otpVerifySchema = z.object({
+    otp: z
+        .string()
+        .min(6, { message: "OTP must be 6 digits" })
+        .max(6, { message: "OTP must be 6 digits" }),
+});
+
 // Type exports for use in components
 export type LoginFormData = z.infer<typeof loginFormSchema>;
 export type SignupFormData = z.infer<typeof signupFormSchema>;
 export type ForgotPasswordData = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordData = z.infer<typeof resetPasswordSchema>;
+export type OtpVerifyData = z.infer<typeof otpVerifySchema>;
