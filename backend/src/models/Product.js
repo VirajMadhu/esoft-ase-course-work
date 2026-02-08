@@ -1,6 +1,5 @@
 import { DataTypes } from "@sequelize/core";
 import sequelize from "../config/db.config.js";
-import Category from "../Category.js";
 
 const Product = sequelize.define(
   "Product",
@@ -17,12 +16,6 @@ const Product = sequelize.define(
     categoryId: {
       type: DataTypes.STRING,
       allowNull: false,
-      references: {
-        model: Category,
-        key: "id",
-      },
-      onUpdate: "CASCADE",
-      onDelete: "SET NULL",
     },
     price: {
       type: DataTypes.FLOAT,
@@ -33,7 +26,7 @@ const Product = sequelize.define(
       allowNull: false,
     },
     image: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(2048), // avoids "data too long" error
       allowNull: false,
     },
     status: {
@@ -51,18 +44,19 @@ const Product = sequelize.define(
   },
 );
 
-// Associations
-Product.belongsTo(Category, { foreignKey: "categoryId", as: "category" });
-Category.hasMany(Product, { foreignKey: "categoryId", as: "products" });
+// Function to attach associations later
+Product.associate = function (models) {
+  Product.belongsTo(models.Category, {
+    foreignKey: "categoryId",
+    as: "category",
+    inverse: false,
+  });
 
-Product.hasMany(StockMovement, {
-  foreignKey: "productId",
-  as: "stockMovements",
-});
-
-StockMovement.belongsTo(Product, {
-  foreignKey: "productId",
-  as: "product",
-});
+  Product.hasMany(models.StockMovement, {
+    foreignKey: "productId",
+    as: "stockMovements",
+    inverse: false,
+  });
+};
 
 export default Product;

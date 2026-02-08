@@ -13,15 +13,21 @@ const Category = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    count: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-    },
   },
   {
     tableName: "categories",
     timestamps: true,
-  }
+  },
 );
+
+// Function to attach associations later
+Category.associate = function (models) {
+  const Product = models.Product;
+  Category.hasMany(Product, {
+    foreignKey: "categoryId",
+    as: "products",
+    inverse: false,
+  });
+};
 
 export default Category;

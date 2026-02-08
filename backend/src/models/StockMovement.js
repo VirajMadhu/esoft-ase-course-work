@@ -1,6 +1,5 @@
 import { DataTypes } from "@sequelize/core";
 import sequelize from "../config/db.config.js";
-import Product from "../Product.js";
 
 const StockMovement = sequelize.define(
   "StockMovement",
@@ -12,14 +11,8 @@ const StockMovement = sequelize.define(
       autoIncrement: true,
     },
     productId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
-      references: {
-        model: Product,
-        key: "id",
-      },
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE",
     },
     type: {
       type: DataTypes.ENUM("IN", "OUT", "ADJUST"),
@@ -43,5 +36,15 @@ const StockMovement = sequelize.define(
     timestamps: true,
   },
 );
+
+// Function to attach associations later
+StockMovement.associate = function (models) {
+  const Product = models.Product;
+  StockMovement.belongsTo(Product, {
+    foreignKey: "productId",
+    as: "product",
+    inverse: false,
+  });
+};
 
 export default StockMovement;

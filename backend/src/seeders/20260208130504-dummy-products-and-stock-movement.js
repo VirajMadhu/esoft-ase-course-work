@@ -8,8 +8,7 @@ const products = [
     categoryId: 2,
     price: 180,
     unit: "500ml • Case of 24",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuB3U_VWflk7OxGMTLPeMKssZlOrEK16LrydqBNp8d0yUwueYoi75u9wwi8n6hKwHceCBvXsCiReIih0OFdNLCLs8kqjrJQJAuJA6WciRuyG8kyUMCW4awnAx7RjGD1k6ZvzWElsRsIbYLb7b3P16Obtt37cDuf3cr-D0CIWUvL_6xXSbMq4_6jWWbwhoTim6KZ9EyXHTLpp1RP_uKw31alIbNXghYYX7eisEYMgdSSLyoZqUsv-uPP55Ap6MFioCmgfmoDLqK8OqDU",
+    image: "https://i.ibb.co/vCqR2DxT/Sparkling-Mineral-Water.png",
     status: "IN_STOCK",
     badge: "Popular",
   },
@@ -19,8 +18,7 @@ const products = [
     categoryId: 4,
     price: 120,
     unit: "330ml • No Sugar Added",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAyVYoVQMWeJeqvLF4-CXEWFo_lGdbq5aYhfwcri4--LgebZJec91LCZBNX7sjV1U57g24KDZfSDlMthGHC1kycRmMdWYF17fETOVKhq6sKF18UolWAD2lMXcRNmOLpSKmI7nPnkI8wzNHtEhpG71uZUM-8FcjNTLfCIN_XtoIx-DotsYTofSdwNGMI8RtMjWyar1UsSoMmEU8yQ65LhkdpB5t4nbGRHZT45zA_7DXHS2wAgBXs97iOKq30dyNCFaSoyF-aPGNDWEU",
+    image: "https://i.ibb.co/9kNXFqWG/Tropical-Mango-Juice.png",
     status: "LOW_STOCK",
     badge: null,
   },
@@ -30,8 +28,7 @@ const products = [
     categoryId: 1,
     price: 250,
     unit: "250ml • High Caffeine",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuA-seLrLn0ZuyGiVSK4wDN60lRDngeLdEIjc05usucvzanNzDDuhXXBtrTsMI-HdC_uv_u5NzIYCOZ1Zz_bzeizghIa3SEj8Mkga6gv_izUFGXgp-iKPbdHU0kP6IoVaJkI-UYbS8VfQ9EwrrsdIKkxazgizuNx2JPXpCyeukvPlT6YYa4kvCGpyWyOvBYd_Nm-RGTX4ChxInV1ctsq37_jXdHHVARgEmHsWWAQNHX919sYJpR_lltMGSjQ_e7MKo5AqweWY5iEagg",
+    image: "https://i.ibb.co/j9CrLTM4/Island-Zap-Energy.png",
     status: "IN_STOCK",
     badge: "New",
   },
@@ -41,66 +38,116 @@ const products = [
     categoryId: 3,
     price: 250,
     unit: "1kg Bag • Roasted",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuD5aRcGR3TrIFk8Sqo1UupJibxIexTR0A0Hi8nUDuO_VGKPsgLF-f1Qw9QgfpzHiBdyR_LFnMa-Z6nTl8uswrtHF6UXZ64XmJhTFglfC23OWofE0aXbr0ACJpEHl6NbfhGgAS52HloY3Y1JvrdS3-hFU9unKAm9cVJQy0y7ilj8R8uOVKib5za4NO-e7CaqbWBf_IP_ydZQhrqT4f8m_mu19iXyOYf1xBcttQQcj7T1Pwm5o0zrsNLyE2oi5Qh64HIgYdaDhq9h9DY",
+    image: "https://i.ibb.co/CKZZJWRP/Highland-Arabica-Beans.png",
+    status: "IN_STOCK",
+    badge: null,
+  },
+  {
+    id: 5,
+    name: "Organic Apple Juice",
+    categoryId: 4,
+    price: 150,
+    unit: "500ml Bottle",
+    image: "https://i.ibb.co/JFB6Z10M/Organic-Apple-Juice.png",
+    status: "IN_STOCK",
+    badge: "Popular",
+  },
+  {
+    id: 6,
+    name: "Coca Cola Classic",
+    categoryId: 1,
+    price: 200,
+    unit: "330ml Can",
+    image: "https://i.ibb.co/pcNsY02/Coca-Cola-Classic.png",
+    status: "IN_STOCK",
+    badge: "Popular",
+  },
+  {
+    id: 7,
+    name: "Peach Iced Tea",
+    categoryId: 4,
+    price: 130,
+    unit: "500ml Bottle",
+    image: "https://i.ibb.co/nXBJz64/Peach-Iced-Tea.png",
+    status: "LOW_STOCK",
+    badge: null,
+  },
+  {
+    id: 8,
+    name: "Espresso Ground Coffee",
+    categoryId: 3,
+    price: 300,
+    unit: "250g Pack",
+    image: "https://i.ibb.co/WNBwRykF/Espresso-Ground-Coffee.png",
+    status: "IN_STOCK",
+    badge: "New",
+  },
+  {
+    id: 9,
+    name: "Green Tea Bags",
+    categoryId: 3,
+    price: 180,
+    unit: "20 Bags",
+    image: "https://i.ibb.co/R4bJ890T/Green-Tea-Bags.png",
+    status: "IN_STOCK",
+    badge: null,
+  },
+  {
+    id: 10,
+    name: "Lemon Sparkling Water",
+    categoryId: 2,
+    price: 175,
+    unit: "500ml Bottle",
+    image: "https://i.ibb.co/GvRSZ2Kh/Lemon-Sparkling-Water.png",
     status: "IN_STOCK",
     badge: null,
   },
 ];
 
 // ----- STOCK MOVEMENTS -----
-const stockMovements = [
-  // Coca Cola
-  {
-    productId: 1,
-    type: "IN",
-    quantity: 100,
-    reason: "Initial stock",
-    referenceId: "INIT-COCA",
-  },
-  {
-    productId: 1,
-    type: "OUT",
-    quantity: 5,
-    reason: "Customer order",
-    referenceId: "ORDER-1001",
-  },
+const generateStockMovements = () => {
+  const stockMovements = [];
+  for (let product of products) {
+    // Initial stock
+    const initialQty = Math.floor(Math.random() * 200) + 50;
+    stockMovements.push({
+      productId: product.id,
+      type: "IN",
+      quantity: initialQty,
+      reason: "Initial stock",
+      referenceId: `INIT-${product.id}`,
+    });
 
-  // Mineral Water
-  {
-    productId: 2,
-    type: "IN",
-    quantity: 200,
-    reason: "Initial stock",
-    referenceId: "INIT-WATER",
-  },
-  {
-    productId: 2,
-    type: "OUT",
-    quantity: 20,
-    reason: "Bulk sale",
-    referenceId: "ORDER-1002",
-  },
+    // Random outflow
+    const outQty = Math.floor(Math.random() * 50);
+    if (outQty > 0) {
+      stockMovements.push({
+        productId: product.id,
+        type: "OUT",
+        quantity: outQty,
+        reason: "Customer orders",
+        referenceId: `OUT-${product.id}`,
+      });
+    }
 
-  // Iced Coffee
-  {
-    productId: 3,
-    type: "IN",
-    quantity: 50,
-    reason: "Initial stock",
-    referenceId: "INIT-COFFEE",
-  },
-  {
-    productId: 3,
-    type: "ADJUST",
-    quantity: -2,
-    reason: "Damaged items",
-    referenceId: "ADJ-0001",
-  },
-];
+    // Random adjustments
+    const adjQty = Math.floor(Math.random() * 10) - 5; // -5 to +4
+    if (adjQty !== 0) {
+      stockMovements.push({
+        productId: product.id,
+        type: "ADJUST",
+        quantity: adjQty,
+        reason: "Stock adjustment",
+        referenceId: `ADJ-${product.id}`,
+      });
+    }
+  }
+  return stockMovements;
+};
 
 export async function up(queryInterface, Sequelize) {
   const now = new Date();
+  const stockMovements = generateStockMovements();
 
   // 1️ Insert products first
   await queryInterface.bulkInsert(
