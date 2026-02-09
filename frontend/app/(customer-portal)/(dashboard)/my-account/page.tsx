@@ -107,7 +107,7 @@ export default function MyAccountPage() {
         <div className="bg-red-50 border border-red-200 rounded-lg p-6">
           <h2 className="font-semibold text-red-600">Deactivate Account</h2>
           <p className="text-sm text-red-500 mt-1">
-            Once you deactivate your account, there is no going back.
+            Once you deactivate your account, there is no going back. Please be certain.
           </p>
 
           <button className="border border-red-400 text-red-600 px-4 py-2 rounded mt-3">
