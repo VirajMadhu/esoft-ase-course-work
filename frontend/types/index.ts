@@ -26,3 +26,13 @@ export interface SortOption {
     value: string;
     label: string;
 }
+
+export interface CartItem {
+    id: string;
+    productId: number;
+    name: string;
+    unit: string;
+    quantity: number;
+    price: number;
+    image?: string | null;
+}
