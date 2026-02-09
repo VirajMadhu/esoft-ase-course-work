@@ -9,14 +9,19 @@
     "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:migrate": "sequelize db:migrate",
-    "db:migrate:undo": "sequelize db:migrate:undo"
+    "db:migrate:undo": "sequelize db:migrate:undo",
+    "db:migration:generate": "sequelize migration:generate --name",
+    
+    "db:seed": "sequelize db:seed:all",
+    "db:seed:undo": "sequelize db:seed:undo",
+    "db:seed:generate": "sequelize seed:generate --name"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.15.1",
   "dependencies": {
-    "@sequelize/core": "7.0.0-alpha.42",
+    "@sequelize/core": "7.0.0-alpha.47",
     "@sequelize/mysql": "7.0.0-alpha.47",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
