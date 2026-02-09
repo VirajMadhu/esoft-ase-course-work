@@ -10,6 +10,7 @@ router.get("/", async (req, res) => {
       limit: req.query.limit,
       sort: req.query.sort,
       category: req.query.category,
+      search: req.query.search,
     });
     res.json(products);
   } catch (err) {

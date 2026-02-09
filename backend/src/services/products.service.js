@@ -1,4 +1,4 @@
-import { fn, literal } from "@sequelize/core";
+import { fn, literal, Op } from "@sequelize/core";
 import db from "../models/index.js";
 import { PRODUCT_SORT_OPTIONS } from "../constants/productSort.js";
 
@@ -9,6 +9,7 @@ export async function getAllProducts({
   limit = 8,
   sort = PRODUCT_SORT_OPTIONS[0].value,
   category = 0,
+  search = "",
 }) {
   try {
     page = Number(page);
@@ -22,7 +23,13 @@ export async function getAllProducts({
     if (sort === PRODUCT_SORT_OPTIONS[1].value) order = [["price", "ASC"]];
     if (sort === PRODUCT_SORT_OPTIONS[2].value) order = [["price", "DESC"]];
 
-    const where = category ? { categoryId: category } : {};
+    const where = {};
+    if (category) where.categoryId = category;
+    if (search) {
+      where.name = {
+        [Op.like]: `%${search}%`,
+      };
+    }
 
     const total = await Product.count({ where });
 

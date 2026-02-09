@@ -6,7 +6,6 @@ import {
   Search,
   Grid3x3,
   List,
-  ChevronLeft,
   ChevronRight,
   Package,
   History,
@@ -38,7 +37,6 @@ export default function ShopPage() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [inStockOnly, setInStockOnly] = useState(true);
-  const [showPreorder, setShowPreorder] = useState(false);
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [page, setPage] = useState(1);
@@ -47,6 +45,18 @@ export default function ShopPage() {
   const [sortOptions, setSortOptions] = useState<SortOption[]>([]);
   const [sortBy, setSortBy] = useState<string>("newest");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchQuery]);
 
   useEffect(() => {
     let cancelled = false;
@@ -56,6 +66,7 @@ export default function ShopPage() {
         page,
         sort: sortBy,
         category: selectedCategory,
+        search: debouncedSearch,
       });
 
       if (!cancelled) {
@@ -69,7 +80,7 @@ export default function ShopPage() {
     return () => {
       cancelled = true;
     };
-  }, [page, sortBy, selectedCategory]);
+  }, [page, sortBy, selectedCategory, debouncedSearch]);
 
   useEffect(() => {
     const fetchConstants = async () => {
@@ -118,6 +129,11 @@ export default function ShopPage() {
                 <Input
                   className="w-full bg-slate-100 dark:bg-slate-800 border-none pl-10"
                   placeholder="Search product catalog..."
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setPage(1);
+                  }}
                 />
               </div>
             </div>
