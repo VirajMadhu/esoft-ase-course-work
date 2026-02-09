@@ -6,6 +6,7 @@ export interface GetProductsParams {
   limit?: number;
   sort?: string;
   category?: number;
+  search?: string;
 }
 
 export async function getProducts(
@@ -25,6 +26,7 @@ export async function getProducts(
       limit: params.limit ?? 8,
       sort: params.sort,
       category: params.category,
+      search: params.search,
     },
   });
 

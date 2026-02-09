@@ -6,7 +6,6 @@ import {
   Search,
   Grid3x3,
   List,
-  ChevronLeft,
   ChevronRight,
   Package,
   History,
@@ -25,20 +24,19 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ProductCard } from "@/components/ProductCard";
 import { CartDrawer } from "@/components/CartDrawer";
-import { cartItems } from "@/lib/data";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { getProducts } from "@/lib/api/product-api";
-import { Category, Product, SortOption } from "@/types";
+import { CartItem, Category, Product, SortOption } from "@/types";
 import { AppPagination } from "@/components/AppPagination";
 import { getConstants } from "@/lib/api/constant-api";
+import { getCart, addToCart, updateQuantity } from "@/lib/cart-utils";
 
 export default function ShopPage() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [inStockOnly, setInStockOnly] = useState(true);
-  const [showPreorder, setShowPreorder] = useState(false);
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [page, setPage] = useState(1);
@@ -47,6 +45,21 @@ export default function ShopPage() {
   const [sortOptions, setSortOptions] = useState<SortOption[]>([]);
   const [sortBy, setSortBy] = useState<string>("newest");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [cartItemsState, setCartItemsState] = useState<CartItem[]>(() => {
+    return getCart();
+  });
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchQuery]);
 
   useEffect(() => {
     let cancelled = false;
@@ -56,6 +69,7 @@ export default function ShopPage() {
         page,
         sort: sortBy,
         category: selectedCategory,
+        search: debouncedSearch,
       });
 
       if (!cancelled) {
@@ -69,7 +83,7 @@ export default function ShopPage() {
     return () => {
       cancelled = true;
     };
-  }, [page, sortBy, selectedCategory]);
+  }, [page, sortBy, selectedCategory, debouncedSearch]);
 
   useEffect(() => {
     const fetchConstants = async () => {
@@ -84,6 +98,17 @@ export default function ShopPage() {
   const handleOnChange = (value: string) => {
     setSortBy(value);
     setPage(1);
+  };
+
+  const onAddToCart = (product: Product) => {
+    const updatedCart = addToCart(product);
+    setCartItemsState([...updatedCart]);
+    setIsCartOpen(true);
+  };
+
+  const onUpdateQuantity = (productId: number, delta: number) => {
+    const updatedCart = updateQuantity(productId, delta);
+    setCartItemsState([...updatedCart]);
   };
 
   return (
@@ -118,6 +143,11 @@ export default function ShopPage() {
                 <Input
                   className="w-full bg-slate-100 dark:bg-slate-800 border-none pl-10"
                   placeholder="Search product catalog..."
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setPage(1);
+                  }}
                 />
               </div>
             </div>
@@ -154,7 +184,7 @@ export default function ShopPage() {
               >
                 <ShoppingCart className="h-5 w-5" />
                 <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px]">
-                  {cartItems.length}
+                  {cartItemsState.length}
                 </Badge>
               </Button>
 
@@ -355,6 +385,7 @@ export default function ShopPage() {
                   key={product.id}
                   product={product}
                   viewMode={viewMode}
+                  onAddToCart={onAddToCart}
                 />
               ))}
             </div>
@@ -373,7 +404,8 @@ export default function ShopPage() {
       <CartDrawer
         open={isCartOpen}
         onOpenChange={setIsCartOpen}
-        items={cartItems}
+        items={cartItemsState}
+        onUpdateQuantity={onUpdateQuantity}
       />
 
       {/* Mobile Bottom Navigation */}
@@ -402,7 +434,7 @@ export default function ShopPage() {
             <ShoppingCart className="h-5 w-5" />
           </div>
           <span className="text-[10px] font-bold text-primary">
-            Cart ({cartItems.length})
+            Cart ({cartItemsState.length})
           </span>
         </button>
         <Button

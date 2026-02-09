@@ -6,9 +6,14 @@ import { Product } from "@/types";
 interface ProductCardProps {
   product: Product;
   viewMode?: "grid" | "list";
+  onAddToCart?: (product: Product) => void;
 }
 
-export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
+export function ProductCard({
+  product,
+  viewMode = "grid",
+  onAddToCart,
+}: ProductCardProps) {
   const getStatusConfig = (status: Product["status"]) => {
     switch (status) {
       case "IN_STOCK":
@@ -36,7 +41,7 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
   const isList = viewMode === "list";
 
   const handleAddToCart = (product: Product) => {
-    console.log(product);
+    onAddToCart?.(product);
   };
   return (
     <div
