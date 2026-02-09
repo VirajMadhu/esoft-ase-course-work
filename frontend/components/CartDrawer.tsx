@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/sheet";
 import { useRouter } from "next/navigation";
 import { CartItem } from "@/types";
+import { getCartSubtotal, getCartTotal } from "@/lib/cart-utils";
 
 interface CartDrawerProps {
   open: boolean;
@@ -22,12 +23,9 @@ export function CartDrawer({
   items,
   onUpdateQuantity,
 }: CartDrawerProps) {
-  const subtotal = items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0,
-  );
-  const logisticsFee = 0;
-  const total = subtotal + logisticsFee;
+  const subtotal = getCartSubtotal();
+  const total = getCartTotal();
+
   const router = useRouter();
 
   return (
