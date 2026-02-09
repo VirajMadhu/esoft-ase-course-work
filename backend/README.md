@@ -1,6 +1,6 @@
-# Frontend – Next.js Application
+# Backend – Express.js Application
 
-This is the frontend application built with **Next.js** and managed using **pnpm**.
+This is the backend application built with **Express.js** and managed using **pnpm**.
 
 ---
 
@@ -30,7 +30,7 @@ pnpm -v
 
 ## Install Dependencies
 
-Navigate to the frontend directory and install dependencies:
+Navigate to the backend directory and install dependencies:
 
 ```bash
 pnpm install
@@ -43,9 +43,29 @@ pnpm install
 pnpm i
 ```
 
+## Run Database Migrations
+
+To apply the latest database migrations:
+
+```bash
+pnpm db:migrate
+```
+
+This will:
+- Create or update database tables
+- Sync schema changes with the database
+
+## Seed the Database
+
+To insert initial or sample data into the database:
+
+```bash
+pnpm db:seed
+```
+
 ## Run the Development Server
 
-Start the Next.js development server:
+Start the Express.js development server:
 
 ```bash
 pnpm dev
@@ -55,5 +75,5 @@ pnpm dev
 The application will be available at:
 
 ```bash
-http://localhost:3000
+http://localhost:4000
 ```
