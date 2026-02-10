@@ -20,6 +20,9 @@ import {
 import { loginFormSchema } from "@/lib/schemas/auth";
 import { APP_CONFIG } from "@/lib/config";
 import Image from "next/image";
+import { toast } from "sonner";
+import { loginApi } from "@/lib/api/auth-api";
+import Cookies from "js-cookie";
 
 type LoginFormValues = z.infer<typeof loginFormSchema>;
 
@@ -38,37 +41,24 @@ export default function LoginPage() {
   async function onSubmit(data: LoginFormValues) {
     setIsLoading(true);
     try {
-      const response = await fetch(`${APP_CONFIG.api.baseUrl}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || "Login failed");
-      }
+      const result = await loginApi(data.email, data.password);
 
       // Store token in cookies
-      document.cookie = `auth_token=${result.token}; path=/; max-age=${60 * 60 * 24}; SameSite=Lax`;
+      Cookies.set("auth_token", result.token, { expires: 1 });
 
       // Redirect to home or previous page
-      const searchParams = new URLSearchParams(window.location.search);
+      const searchParams = new URLSearchParams(
+        typeof globalThis === "undefined" ? "" : globalThis.location.search,
+      );
       const from = searchParams.get("from") || "/";
-      window.location.href = from;
+      if (typeof globalThis !== "undefined" && globalThis.location) {
+        globalThis.location.href = from;
+      }
     } catch (error: unknown) {
       console.error("Login error:", error);
       const errorMessage =
         error instanceof Error ? error.message : "An unexpected error occurred";
-      form.setError("root", {
-        message: errorMessage,
-      });
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
