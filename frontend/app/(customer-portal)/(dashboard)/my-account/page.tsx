@@ -2,7 +2,62 @@
 
 "use client";
 
+import { useEffect, useState } from "react";
+import { changePassword } from "@/lib/api/auth-api";
+import { deactivateAccount, updateAccount, getAccount } from "@/lib/api/account-api";
+
+
+
 export default function MyAccountPage() {
+
+const [email, setEmail] = useState("");
+const [currentPassword, setCurrentPassword] = useState("");
+const [newPassword, setNewPassword] = useState("");
+const [confirmPassword, setConfirmPassword] = useState("");
+
+useEffect(() => {
+  const loadAccount = async () => {
+    const data = await getAccount();
+    setEmail(data?.email ?? "");
+  };
+
+  loadAccount();
+}, []);
+
+
+const handlePasswordUpdate = async () => {
+  if (newPassword.length < 8) {
+    alert("Password must be at least 8 characters");
+    return;
+  }
+
+  if (!/[A-Z]/.test(newPassword)) {
+    alert("Must contain at least one uppercase letter");
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  await changePassword({ currentPassword, newPassword });
+  alert("Password updated successfully");
+
+  setCurrentPassword("");
+  setNewPassword("");
+  setConfirmPassword("");
+};
+
+const handleSaveChanges = async () => {
+  try {
+    await updateAccount({ email });
+    alert("Account details updated successfully");
+  } catch (err: any) {
+    alert(err.message || "Failed to update account");
+  }
+};
+
   return (
     <div className="flex gap-6">
       {/* LEFT SIDEBAR */}
@@ -53,6 +108,8 @@ export default function MyAccountPage() {
               <label className="text-sm">Email Address</label>
               <input
                 className="w-full border rounded px-3 py-2 mt-1"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="customer@islandlink.com"
               />
             </div>
@@ -75,33 +132,51 @@ export default function MyAccountPage() {
             </div>
           </div>
 
-          <button className="bg-blue-600 text-white px-4 py-2 rounded mt-4">
-            Save Changes
-          </button>
+          <button
+  onClick={handleSaveChanges}
+  className="bg-blue-600 text-white px-4 py-2 rounded mt-4"
+>
+  Save Changes
+</button>
         </div>
 
         {/* CHANGE PASSWORD */}
         <div className="bg-white rounded-lg shadow p-6 space-y-4">
           <h2 className="font-semibold">Change Password</h2>
+          <p className="text-sm text-black-400 mt-1">
+            Ensure your account is using a long, random password to stay secure. Your password should be at least 8 characters with an Uppercase character.
+          </p>
 
           <input
-            type="password"
-            placeholder="Current Password"
-            className="w-full border rounded px-3 py-2"
-          />
-          <input
-            type="password"
-            placeholder="New Password"
-            className="w-full border rounded px-3 py-2"
-          />
-          <input
-            type="password"
-            placeholder="Confirm New Password"
-            className="w-full border rounded px-3 py-2"
+          type="password"
+          placeholder="Current Password"
+          value={currentPassword}
+          onChange={(e) => setCurrentPassword(e.target.value)}
+          className="w-full border rounded px-3 py-2"
           />
 
-          <button className="bg-black text-white px-4 py-2 rounded">
-            Update Password
+           <input
+          type="password"
+          placeholder="New Password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          className="w-full border rounded px-3 py-2"
+          />
+
+          <input
+          type="password"
+          placeholder="Confirm New Password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          className="w-full border rounded px-3 py-2"
+          />
+
+
+          <button
+          onClick={handlePasswordUpdate}
+          className="bg-black text-white px-4 py-2 rounded"
+           >
+          Update Password
           </button>
         </div>
 
@@ -112,9 +187,17 @@ export default function MyAccountPage() {
             Once you deactivate your account, there is no going back. Please be certain.
           </p>
 
-          <button className="border border-red-400 text-red-600 px-4 py-2 rounded mt-3">
-            Deactivate Account
-          </button>
+          <button
+  onClick={async () => {
+    if (confirm("Are you sure? This cannot be undone.")) {
+      await deactivateAccount();
+      alert("Account deactivated");
+    }
+  }}
+  className="border border-red-400 text-red-600 px-4 py-2 rounded mt-3"
+  >
+  Deactivate Account
+</button>
         </div>
       </div>
     </div>
