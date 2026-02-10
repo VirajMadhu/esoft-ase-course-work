@@ -1,8 +1,10 @@
 import express from "express";
 import * as authService from "../services/auth.service.js";
+import { register, login } from "../controllers/auth.controller.js";
 
 const router = express.Router();
 
+// --- Customer Auth (Friend's Code) ---
 router.post("/signup", async (req, res) => {
   try {
     const result = await authService.signup(req.body);
@@ -21,13 +23,8 @@ router.post("/verify-otp", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
-  try {
-    const result = await authService.login(req.body);
-    res.json(result);
-  } catch (err) {
-    res.status(401).json({ message: err.message });
-  }
-});
+// --- Staff/Admin Auth (My Code) ---
+router.post("/register", register);
+router.post("/login", login);
 
 export default router;

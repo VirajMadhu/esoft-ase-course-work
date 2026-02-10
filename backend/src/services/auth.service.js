@@ -21,7 +21,7 @@ export async function signup({ email, password, name }) {
     email,
     password: hashedPassword,
     name,
-    role: "CUSTOMER",
+    role: "customer",
   });
 
   // Generate 6-digit OTP
