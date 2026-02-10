@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
 router.put("/", async (req, res) => {
   const { email } = req.body;
   await User.update({ email }, { where: { id: 1 } });
-  res.json({ message: "Account updated" });
+  res.json({ message: "Account updated successfully" });
 });
 
 // CHANGE PASSWORD
