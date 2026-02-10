@@ -8,9 +8,6 @@ import ordersRouter from "./orders.routes.js";
 
 const router = express.Router();
 
-router.use("/orders", ordersRoutes);
-router.use("/account", accountRoutes);
-
 // register routes
 router.use("/health", healthRouter);
 router.use("/users", usersRouter);
