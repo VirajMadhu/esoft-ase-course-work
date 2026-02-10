@@ -9,6 +9,11 @@ const categories = [
 ];
 
 export async function up(queryInterface, Sequelize) {
+  // remove existingcategories and update newone
+  await queryInterface.bulkDelete("categories", {
+    id: categories.map((cat) => cat.id),
+  });
+
   // Add timestamps for Sequelize
   const data = categories.map((category) => ({
     ...category,

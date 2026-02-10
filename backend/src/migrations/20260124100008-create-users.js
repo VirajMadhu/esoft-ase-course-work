@@ -16,9 +16,9 @@ export async function up(queryInterface, Sequelize) {
       allowNull: false,
     },
     role: {
-      type: Sequelize.ENUM("CUSTOMER", "STAFF", "MANAGER", "ADMIN"),
+      type: Sequelize.ENUM("customer", "staff", "manager", "admin"),
       allowNull: false,
-      defaultValue: "CUSTOMER",
+      defaultValue: "customer",
     },
     createdAt: {
       type: Sequelize.DATE,

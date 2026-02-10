@@ -23,8 +23,17 @@ router.post("/verify-otp", async (req, res) => {
   }
 });
 
+router.post("/login", async (req, res) => {
+  try {
+    const result = await authService.login(req.body);
+    res.json(result);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 // --- Staff/Admin Auth (My Code) ---
-router.post("/register", register);
-router.post("/login", login);
+router.post("/staff/register", register);
+router.post("/staff/login", login);
 
 export default router;

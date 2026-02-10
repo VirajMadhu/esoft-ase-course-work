@@ -73,7 +73,7 @@ export async function verifyOTP({ email, otp }) {
 }
 
 export async function login({ email, password }) {
-  const user = await User.findOne({ where: { email } });
+  const user = await User.findOne({ where: { email, role: "customer" } });
   if (!user) {
     throw new Error("Invalid email or password");
   }
