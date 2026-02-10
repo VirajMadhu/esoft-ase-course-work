@@ -27,12 +27,8 @@ export interface SortOption {
     label: string;
 }
 
-export interface CartItem {
+export interface CartItem extends BaseProduct {
     id: string;
     productId: number;
-    name: string;
-    unit: string;
     quantity: number;
-    price: number;
-    image?: string | null;
 }
