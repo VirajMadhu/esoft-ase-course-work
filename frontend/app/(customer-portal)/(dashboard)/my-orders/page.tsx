@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { ArrowLeft, Eye } from 'lucide-react';
 import { getOrders } from '@/lib/api/orders-api';
 
-/* Status Badge – UNCHANGED */
+/* Status Badge */
 function StatusBadge({ status }: { status: string }) {
   const styles: Record<string, string> = {
     PENDING: 'bg-yellow-100 text-yellow-700',
@@ -27,14 +27,14 @@ export default function OrderHistoryPage() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
 
-  /* 🔥 FETCH FROM BACKEND */
+  /* FETCH FROM BACKEND */
   useEffect(() => {
     getOrders()
       .then(setOrders)
       .catch(console.error);
   }, []);
 
-  /* FILTER LOGIC – SAME AS BEFORE */
+  /* FILTER LOGIC */
   const filteredOrders = orders.filter((order) => {
     const matchSearch = order.order_number
       .toLowerCase()
@@ -54,7 +54,7 @@ export default function OrderHistoryPage() {
       </a>
 
       <div className="flex gap-6">
-        {/* LEFT SIDEBAR – UNCHANGED */}
+        {/* LEFT SIDEBAR*/}
         <aside className="w-64 bg-white rounded-lg shadow p-4">
           <h3 className="text-xs font-semibold text-gray-500 mb-3">
             FILTER BY STATUS
@@ -102,14 +102,14 @@ export default function OrderHistoryPage() {
 
             <input
               type="text"
-              placeholder="Search by Order ID..."
+              placeholder="Search by Order Number..."
               className="border rounded-md px-4 py-2 text-sm w-64"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
 
-          {/* TABLE – SAME DESIGN */}
+          {/* TABLE*/}
           <div className="bg-white rounded-lg shadow overflow-hidden">
             <table className="w-full text-sm">
               <thead className="bg-gray-50 text-gray-500">
