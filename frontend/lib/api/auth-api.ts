@@ -28,3 +28,10 @@ export async function verifyOtpApi(email: string, otp: string): Promise<{
   return data;
 }
 
+export const changePassword = async (data: {
+  currentPassword: string;
+  newPassword: string;
+}) => {
+  const res = await api.put("/auth/change-password", data);
+  return res.data;
+};

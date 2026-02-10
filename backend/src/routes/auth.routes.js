@@ -1,5 +1,6 @@
 import express from "express";
 import * as authService from "../services/auth.service.js";
+import User from "../models/User.js";
 
 const router = express.Router();
 
@@ -28,6 +29,22 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     res.status(401).json({ message: err.message });
   }
+});
+
+router.put("/change-password", async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  const user = await User.findByPk(1);
+
+  const match = await bcrypt.compare(currentPassword, user.password);
+  if (!match) {
+    return res.status(400).json({ message: "Current password incorrect" });
+  }
+
+  const hashed = await bcrypt.hash(newPassword, 10);
+  await user.update({ password: hashed });
+
+  res.json({ message: "Password updated successfully" });
 });
 
 export default router;
