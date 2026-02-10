@@ -6,13 +6,16 @@ export const getAccount = async () => {
 };
 
 export const updateAccount = async (data: any) => {
-  return api.put("/account", data);
+  const res = await api.put("/account", data);
+  return res.data;
 };
 
 export const changePassword = async (data: any) => {
-  return api.put("/account/password", data);
+  const res = await api.put("/account/password", data);
+   return res.data;
 };
-
+ 
 export const deactivateAccount = async () => {
-  return api.delete("/account");
+ const res = await api.delete("/account");
+  return res.data;
 };
