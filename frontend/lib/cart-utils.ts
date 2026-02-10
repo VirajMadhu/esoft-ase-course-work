@@ -28,6 +28,7 @@ export const addToCart = (product: Product): CartItem[] => {
       quantity: 1,
       price: product.price,
       image: product.image,
+      category: product.category,
     });
   }
 
@@ -59,4 +60,20 @@ export const removeFromCart = (productId: number): CartItem[] => {
 export const clearCart = (): void => {
   if (typeof globalThis.window === "undefined") return;
   globalThis.window.sessionStorage.removeItem(CART_STORAGE_KEY);
+};
+
+export const getCartSubtotal = (): number => {
+  const cart = getCart();
+  return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+};
+
+export const getCartTotal = (): number => {
+  const cartTotal = getCartSubtotal();
+  const logisticsFee = 0;
+  return cartTotal + logisticsFee;
+};
+
+export const getCartCount = (): number => {
+  const cart = getCart();
+  return cart.reduce((sum, item) => sum + item.quantity, 0);
 };

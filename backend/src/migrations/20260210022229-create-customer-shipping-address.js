@@ -1,24 +1,37 @@
 export async function up(queryInterface, Sequelize) {
-  await queryInterface.createTable("users", {
+  await queryInterface.createTable("customer_shipping_addresses", {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
-    email: {
+    userId: {
+      type: Sequelize.INTEGER,
+      required: true,
+      allowNull: true,
+      references: {
+        model: "users",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "SET NULL",
+    },
+    phone: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true,
     },
-    password: {
+    address: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    role: {
-      type: Sequelize.ENUM("CUSTOMER", "STAFF", "MANAGER", "ADMIN"),
+    city: {
+      type: Sequelize.STRING,
       allowNull: false,
-      defaultValue: "CUSTOMER",
+    },
+    postalCode: {
+      type: Sequelize.STRING,
+      allowNull: false,
     },
     createdAt: {
       type: Sequelize.DATE,
@@ -32,5 +45,5 @@ export async function up(queryInterface, Sequelize) {
 }
 
 export async function down(queryInterface) {
-  await queryInterface.dropTable("users");
+  await queryInterface.dropTable("customer_shipping_addresses");
 }

@@ -1,24 +1,29 @@
 export async function up(queryInterface, Sequelize) {
-  await queryInterface.createTable("users", {
+  await queryInterface.createTable("tokens", {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
     },
-    email: {
+    userId: {
+      type: Sequelize.INTEGER,
+      required: true,
+      allowNull: true,
+      references: {
+        model: "users",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "SET NULL",
+    },
+    token: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true,
     },
-    password: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    role: {
-      type: Sequelize.ENUM("CUSTOMER", "STAFF", "MANAGER", "ADMIN"),
-      allowNull: false,
-      defaultValue: "CUSTOMER",
+    expiredAt: {
+      type: Sequelize.DATE,
+      allowNull: true,
     },
     createdAt: {
       type: Sequelize.DATE,
@@ -32,5 +37,5 @@ export async function up(queryInterface, Sequelize) {
 }
 
 export async function down(queryInterface) {
-  await queryInterface.dropTable("users");
+  await queryInterface.dropTable("tokens");
 }
