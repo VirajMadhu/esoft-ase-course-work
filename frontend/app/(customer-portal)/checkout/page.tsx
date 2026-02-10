@@ -5,18 +5,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { checkoutSchema, CheckoutFormValues } from "@/lib/schemas/checkout";
 
-import { orderItems, navItems } from "@/lib/data";
+import { orderItems } from "@/lib/data";
 
-import {
-  ArrowLeft,
-  Ship,
-  Truck,
-  Banknote,
-  Lock,
-  Info,
-  CheckCircle2,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowLeft, Truck, Banknote, Lock, CheckCircle2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -33,15 +24,20 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CartItem } from "@/types";
-import { getCart, getCartSubtotal, getCartTotal } from "@/lib/cart-utils";
-
-const subtotal = orderItems.reduce(
-  (sum, item) => sum + item.price * item.qty,
-  0,
-);
+import {
+  getCart,
+  getCartSubtotal,
+  getCartTotal,
+  clearCart,
+} from "@/lib/cart-utils";
+import { placeOrderApi } from "@/lib/api/orders-api";
+import { toast } from "sonner";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 export default function CheckoutPage() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [cartItemsState] = useState<CartItem[]>(() => {
     return getCart();
   });
@@ -60,10 +56,64 @@ export default function CheckoutPage() {
     },
   });
 
-  const onSubmit = (data: CheckoutFormValues) => {
-    console.log("Checkout payload:", data);
-    // later: call API
-    router.push("/checkout/callback");
+  const onSubmit = async (data: CheckoutFormValues) => {
+    setIsLoading(true);
+    try {
+      // 1. Get User ID from Token
+      const token = Cookies.get("auth_token");
+      let userId = 1; // Default for testing if no token (though middleware should catch this)
+
+      if (token) {
+        try {
+          const decoded = jwtDecode(token) as { id: number };
+          userId = decoded.id;
+        } catch (e) {
+          console.error("Token decode error:", e);
+        }
+      }
+
+      // 2. Prepare Order Payload
+      const orderData = {
+        userId,
+        items: cartItemsState.map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+        shippingDetails: {
+          fullName: data.fullName,
+          email: data.email,
+          phone: data.phone,
+          address: data.address,
+          city: data.city,
+          postalCode: data.postalCode,
+        },
+        subtotal,
+        tax: 0, // Simplified
+        discount: 0, // Simplified
+        totalAmount: total,
+      };
+
+      // 3. Call API
+      const result = await placeOrderApi(orderData);
+
+      toast.success(result.message || "Order placed successfully!");
+
+      // 4. Clear Cart
+      clearCart();
+
+      // 5. Redirect to callback
+      router.push("/checkout/callback");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Failed to place order. Please try again.";
+      console.error("Checkout error:", error);
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -262,8 +312,13 @@ export default function CheckoutPage() {
                     </div>
                   </div>
 
-                  <Button className="w-full mt-6" size="lg" type="submit">
-                    Place Order
+                  <Button
+                    className="w-full mt-6"
+                    size="lg"
+                    type="submit"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Placing Order..." : "Place Order"}
                     <CheckCircle2 className="ml-2 h-5 w-5" />
                   </Button>
                 </CardContent>

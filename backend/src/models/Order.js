@@ -11,7 +11,6 @@ const Order = sequelize.define(
     },
     user_id: {
       type: DataTypes.INTEGER,
-      unique: true,
       allowNull: false,
     },
     order_number: {
@@ -28,19 +27,19 @@ const Order = sequelize.define(
       defaultValue: "PENDING",
     },
     subtotal: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
     tax: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
     discount: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
     total_amount: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
   },
