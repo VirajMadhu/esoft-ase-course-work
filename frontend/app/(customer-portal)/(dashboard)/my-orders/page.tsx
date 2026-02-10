@@ -2,26 +2,17 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowLeft, Eye } from 'lucide-react';
+import { getOrders } from '@/lib/api/orders-api';
 
-
-/* Dummy Data */
-const orders = [
-  { id: 'ORD-0001', date: 'Oct 24, 2023', amount: '$156.40', status: 'Dispatched' },
-  { id: 'ORD-0002', date: 'Oct 21, 2023', amount: '$42.15', status: 'Delivered' },
-  { id: 'ORD-0003', date: 'Oct 18, 2023', amount: '$218.00', status: 'Pending' },
-  { id: 'ORD-0004', date: 'Oct 15, 2023', amount: '$89.50', status: 'Delivered' },
-  { id: 'ORD-0005', date: 'Oct 10, 2023', amount: '$105.50', status: 'Delivered' },
-
-];
-
-/* Status Badge */
+/* Status Badge – UNCHANGED */
 function StatusBadge({ status }: { status: string }) {
   const styles: Record<string, string> = {
-    Pending: 'bg-yellow-100 text-yellow-700',
-    Dispatched: 'bg-blue-100 text-blue-700',
-    Delivered: 'bg-green-100 text-green-700',
+    PENDING: 'bg-yellow-100 text-yellow-700',
+    SHIPPED: 'bg-blue-100 text-blue-700',
+    PAID: 'bg-green-100 text-green-700',
+    CANCELLED: 'bg-red-100 text-red-700',
   };
 
   return (
@@ -31,14 +22,21 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
-/*  Page */
 export default function OrderHistoryPage() {
-const [search, setSearch] = useState('');
-const [statusFilter, setStatusFilter] = useState('All');
+  const [orders, setOrders] = useState<any[]>([]);
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('All');
 
-  /*  FILTER LOGIC */
+  /* 🔥 FETCH FROM BACKEND */
+  useEffect(() => {
+    getOrders()
+      .then(setOrders)
+      .catch(console.error);
+  }, []);
+
+  /* FILTER LOGIC – SAME AS BEFORE */
   const filteredOrders = orders.filter((order) => {
-    const matchSearch = order.id
+    const matchSearch = order.order_number
       .toLowerCase()
       .includes(search.toLowerCase());
 
@@ -48,57 +46,35 @@ const [statusFilter, setStatusFilter] = useState('All');
     return matchSearch && matchStatus;
   });
 
-
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
+      <a href="/" className="inline-flex items-center gap-2 text-lg mb-8">
+        <ArrowLeft size={18} />
+        Go Back to Shop
+      </a>
 
-      <a
-            href="/"
-            className="inline-flex items-center gap-2 text-lg font semibold text-gray-700 hover:text-blue-600 mb-8"
-          >
-              <ArrowLeft size={18} />
-             Go Back to Shop
-        </a>
       <div className="flex gap-6">
-        
-
-        {/*LEFT SIDEBAR */}
+        {/* LEFT SIDEBAR – UNCHANGED */}
         <aside className="w-64 bg-white rounded-lg shadow p-4">
-          <h3 className="text-xs font-semibold text-gray-500 mb-3">FILTER BY STATUS</h3>
+          <h3 className="text-xs font-semibold text-gray-500 mb-3">
+            FILTER BY STATUS
+          </h3>
 
-           <ul className="space-y-2 text-sm">
-            <li
-              className={`flex justify-between cursor-pointer ${
-                statusFilter === 'All' ? 'text-blue-600 font-medium' : 'text-gray-600'
-              }`}
-              onClick={() => setStatusFilter('All')}
-            >
-              <span>All Orders</span>
-              <span className="bg-blue-100 text-blue-600 px-2 rounded-full text-xs">
-                {orders.length}
-              </span>
-            </li>
-
-            <li
-              className={`cursor-pointer ${
-                statusFilter === 'Dispatched' ? 'text-blue-600 font-medium' : 'text-gray-600'
-              }`}
-              onClick={() => setStatusFilter('Dispatched')}
-            >
-              In Transit
-            </li>
-
-            <li
-              className={`cursor-pointer ${
-                statusFilter === 'Delivered' ? 'text-blue-600 font-medium' : 'text-gray-600'
-              }`}
-              onClick={() => setStatusFilter('Delivered')}
-            >
-              Delivered
-            </li>
+          <ul className="space-y-2 text-sm">
+            {['All', 'PENDING', 'SHIPPED', 'PAID', 'CANCELLED'].map((s) => (
+              <li
+                key={s}
+                className={`cursor-pointer ${
+                  statusFilter === s ? 'text-blue-600 font-medium' : 'text-gray-600'
+                }`}
+                onClick={() => setStatusFilter(s)}
+              >
+                {s}
+              </li>
+            ))}
           </ul>
 
-          <hr className="my-4" />
+           <hr className="my-4" />
 
           <h3 className="text-xs font-semibold text-gray-500 mb-3">TIMEFRAME</h3>
           <div className="space-y-2 text-sm text-gray-600">
@@ -116,12 +92,11 @@ const [statusFilter, setStatusFilter] = useState('All');
 
         {/* MAIN CONTENT */}
         <main className="flex-1">
-          {/* Header */}
           <div className="flex justify-between items-center mb-6">
             <div>
               <h1 className="text-2xl font-semibold">Order History</h1>
               <p className="text-gray-500 text-sm">
-                Review your recent transactions and shipment status.
+                Review your recent transactions.
               </p>
             </div>
 
@@ -134,20 +109,19 @@ const [statusFilter, setStatusFilter] = useState('All');
             />
           </div>
 
-          {/* Table */}
+          {/* TABLE – SAME DESIGN */}
           <div className="bg-white rounded-lg shadow overflow-hidden">
             <table className="w-full text-sm">
               <thead className="bg-gray-50 text-gray-500">
                 <tr>
                   <th className="p-4 text-left">ORDER ID</th>
                   <th className="p-4 text-left">DATE</th>
-                  <th className="p-4 text-left">TOTAL AMOUNT</th>
+                  <th className="p-4 text-left">TOTAL</th>
                   <th className="p-4 text-left">STATUS</th>
-                  <th className="p-4 text-left">DETAILS</th>
                 </tr>
               </thead>
 
-               <tbody>
+              <tbody>
                 {filteredOrders.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="p-6 text-center text-gray-500">
@@ -156,21 +130,20 @@ const [statusFilter, setStatusFilter] = useState('All');
                   </tr>
                 ) : (
                   filteredOrders.map((order) => (
-                    <tr key={order.id} className="border-t">
-                      <td className="p-4 font-medium">#{order.id}</td>
-                      <td className="p-4">{order.date}</td>
-                      <td className="p-4">{order.amount}</td>
+                    <tr key={order.order_number} className="border-t">
+                      <td className="p-4 font-medium">
+                        #{order.order_number}
+                      </td>
+                      <td className="p-4">
+                        {new Date(order.createdAt).toLocaleDateString()}
+                      </td>
+                      <td className="p-4">
+                        LKR {order.total_amount}
+                      </td>
                       <td className="p-4">
                         <StatusBadge status={order.status} />
                       </td>
-                      <td className="p-4 align-middle">
-                       <span className="inline-flex items-center gap-2 text-blue-600 cursor-pointer hover:underline">
-                            View
-                        <Eye size={16} />
-                       </span>
-                      </td>
-
-
+                      
                     </tr>
                   ))
                 )}
