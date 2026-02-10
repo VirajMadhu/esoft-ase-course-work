@@ -5,6 +5,7 @@ import productsRouter from "./products.routes.js";
 import constantDataRouter from "./constant-data.routes.js";
 import authRouter from "./auth.routes.js";
 import ordersRouter from "./orders.routes.js";
+import accountRouter from "./account.routes.js";
 
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.use("/products", productsRouter);
 router.use("/constants", constantDataRouter);
 router.use("/auth", authRouter);
 router.use("/orders", ordersRouter);
+router.use("/account", accountRouter);
 
 export default router;
