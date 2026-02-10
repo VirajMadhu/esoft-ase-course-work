@@ -8,6 +8,7 @@ import { authApi } from "@/lib/api/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { LayoutGrid, Lock, Mail, Key } from "lucide-react";
+import Cookies from "js-cookie";
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -35,7 +36,10 @@ const LoginPage = () => {
         try {
             const response = await authApi.login(data);
             if (response.token) {
-                // Store token and user info
+                // Store token in Cookie for API requests
+                Cookies.set("auth_token", response.token, { expires: 1 }); // Expires in 1 day
+
+                // Store token and user info in localStorage for UI
                 localStorage.setItem("authToken", response.token);
                 if (response.user) {
                     localStorage.setItem("userRole", response.user.role || "");

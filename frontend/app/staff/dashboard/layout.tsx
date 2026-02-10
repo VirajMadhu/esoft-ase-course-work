@@ -80,6 +80,7 @@ export default function DashboardLayout({
                                 localStorage.removeItem("authToken");
                                 localStorage.removeItem("userName");
                                 localStorage.removeItem("userRole");
+                                document.cookie = "auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
                                 router.push("/staff/login");
                             }}
                             className="ml-2 p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"

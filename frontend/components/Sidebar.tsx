@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, ShoppingCart, Package, Users, Activity, LogOut, Settings } from "lucide-react";
+import { LayoutGrid, ShoppingCart, Package, Users, Activity, Settings } from "lucide-react";
 
 const Sidebar = () => {
     const pathname = usePathname();
@@ -80,15 +80,7 @@ const Sidebar = () => {
                     <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
                         <Settings className="w-5 h-5" />
                     </button>
-                    <button
-                        onClick={() => {
-                            localStorage.removeItem("authToken");
-                            window.location.href = "/staff/login";
-                        }}
-                        className="p-2 hover:bg-red-50 text-red-400 hover:text-red-500 rounded-lg transition-colors"
-                    >
-                        <LogOut className="w-5 h-5" />
-                    </button>
+
                 </div>
             </div>
         </aside>
