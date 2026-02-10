@@ -14,4 +14,13 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/:orderNumber", async (req, res) => {
+  try {
+    const result = await ordersService.getOrderByNumber(req.params.orderNumber);
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+});
+
 export default router;

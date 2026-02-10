@@ -5,8 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { checkoutSchema, CheckoutFormValues } from "@/lib/schemas/checkout";
 
-import { orderItems } from "@/lib/data";
-
 import { ArrowLeft, Truck, Banknote, Lock, CheckCircle2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -103,7 +101,7 @@ export default function CheckoutPage() {
       clearCart();
 
       // 5. Redirect to callback
-      router.push("/checkout/callback");
+      router.push(`/checkout/callback?orderNumber=${result.order.orderNumber}`);
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error
