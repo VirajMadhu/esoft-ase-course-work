@@ -52,12 +52,23 @@ export async function createOrder({
   });
 }
 
+export async function getOrdersByUser(userId) {
+  return await Order.findAll({
+    where: { user_id: userId },
+    attributes: [
+      "order_number",
+      "createdAt",
+      "total_amount",
+      "status",
+    ],
+    order: [["createdAt", "DESC"]],
+  });
+}
+
 export async function getOrderByNumber(orderNumber) {
-  console.log(orderNumber);
   const order = await Order.findOne({
     where: { order_number: orderNumber },
   });
-  console.log(order);
 
   if (!order) {
     throw new Error("Order not found");
@@ -65,3 +76,4 @@ export async function getOrderByNumber(orderNumber) {
 
   return order;
 }
+

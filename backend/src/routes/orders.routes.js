@@ -14,10 +14,21 @@ router.post("/", async (req, res) => {
   }
 });
 
+// LIST ORDERS (Order History)
+router.get("/", async (req, res) => {
+  try {
+    const orders = await ordersService.getOrdersByUser(1); // demo user
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// SINGLE ORDER
 router.get("/:orderNumber", async (req, res) => {
   try {
-    const result = await ordersService.getOrderByNumber(req.params.orderNumber);
-    res.status(200).json(result);
+    const order = await ordersService.getOrderByNumber(req.params.orderNumber);
+    res.json(order);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
