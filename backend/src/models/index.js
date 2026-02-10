@@ -2,6 +2,7 @@ import sequelize from "../config/db.config.js";
 import Category from "./Category.js";
 import Product from "./Product.js";
 import StockMovement from "./StockMovement.js";
+import "./Order.js";
 
 const db = {
   sequelize,

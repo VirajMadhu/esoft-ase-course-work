@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { Sequelize } from '@sequelize/core';
+import { Sequelize } from "@sequelize/core";
 import { MySqlDialect } from '@sequelize/mysql';
 
 dotenv.config();
