@@ -1,9 +1,10 @@
 import express from "express";
 import * as authService from "../services/auth.service.js";
-import User from "../models/User.js";
+import { register, login } from "../controllers/auth.controller.js";
 
 const router = express.Router();
 
+// --- Customer Auth (Friend's Code) ---
 router.post("/signup", async (req, res) => {
   try {
     const result = await authService.signup(req.body);
@@ -27,24 +28,12 @@ router.post("/login", async (req, res) => {
     const result = await authService.login(req.body);
     res.json(result);
   } catch (err) {
-    res.status(401).json({ message: err.message });
+    res.status(400).json({ message: err.message });
   }
 });
 
-router.put("/change-password", async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
-
-  const user = await User.findByPk(1);
-
-  const match = await bcrypt.compare(currentPassword, user.password);
-  if (!match) {
-    return res.status(400).json({ message: "Current password incorrect" });
-  }
-
-  const hashed = await bcrypt.hash(newPassword, 10);
-  await user.update({ password: hashed });
-
-  res.json({ message: "Password updated successfully" });
-});
+// --- Staff/Admin Auth (My Code) ---
+router.post("/staff/register", register);
+router.post("/staff/login", login);
 
 export default router;

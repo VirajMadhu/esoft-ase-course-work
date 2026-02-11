@@ -226,11 +226,10 @@ export default function ShopPage() {
                   <li key={category.id}>
                     <button
                       onClick={() => setSelectedCategory(category.id)}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-colors ${
-                        selectedCategory === category.id
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-colors ${selectedCategory === category.id
                           ? "bg-primary/10 text-primary font-medium"
                           : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300"
-                      }`}
+                        }`}
                     >
                       <span>{category.name}</span>
                       <span className="text-xs">{category.count}</span>
@@ -307,11 +306,10 @@ export default function ShopPage() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className={`h-8 w-8 ${
-                      viewMode === "grid"
+                    className={`h-8 w-8 ${viewMode === "grid"
                         ? "bg-slate-100 dark:bg-slate-700 text-primary"
                         : "text-slate-400"
-                    }`}
+                      }`}
                     onClick={() => setViewMode("grid")}
                   >
                     <Grid3x3 className="h-4 w-4" />
@@ -319,11 +317,10 @@ export default function ShopPage() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className={`h-8 w-8 ${
-                      viewMode === "list"
+                    className={`h-8 w-8 ${viewMode === "list"
                         ? "bg-slate-100 dark:bg-slate-700 text-primary"
                         : "text-slate-400"
-                    }`}
+                      }`}
                     onClick={() => setViewMode("list")}
                   >
                     <List className="h-4 w-4" />

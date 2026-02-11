@@ -146,6 +146,11 @@ const generateStockMovements = () => {
 };
 
 export async function up(queryInterface, Sequelize) {
+  await queryInterface.bulkDelete("stock_movements", null);
+  await queryInterface.bulkDelete("products", {
+    id: products.map((product) => product.id),
+  });
+
   const now = new Date();
   const stockMovements = generateStockMovements();
 

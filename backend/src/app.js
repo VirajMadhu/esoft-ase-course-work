@@ -16,6 +16,10 @@ app.use("/api/auth", authRoutes);
 
 
 // health route
+app.get("/", (req, res) => {
+    res.json({ message: "Welcome to Esoft ASE Backend 🚀", health_check: "/api/health" });
+});
+
 app.use("/api", routes);
 
 export default app;
