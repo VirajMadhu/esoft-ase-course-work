@@ -5,10 +5,13 @@
 import { useEffect, useState } from "react";
 import { changePassword } from "@/lib/api/auth-api";
 import { deactivateAccount, updateAccount, getAccount } from "@/lib/api/account-api";
-
-
+import { useRouter } from "next/navigation";
+import { logout } from "@/lib/api/auth-logout";
 
 export default function MyAccountPage() {
+
+  const router = useRouter();
+
 
 const [email, setEmail] = useState("");
 const [currentPassword, setCurrentPassword] = useState("");
@@ -78,9 +81,15 @@ const handleSaveChanges = async () => {
           <li className="px-3 py-2 rounded hover:bg-gray-100 cursor-pointer">
             Notifications
           </li>
-          <li className="px-3 py-2 rounded text-red-500 hover:bg-red-50 cursor-pointer">
-            Sign Out
-          </li>
+          <li
+  className="px-3 py-2 rounded text-red-500 hover:bg-red-50 cursor-pointer"
+  onClick={() => {
+    logout();
+    router.push("/login");
+  }}
+>
+  Sign Out
+</li>
         </ul>
       </aside>
 
