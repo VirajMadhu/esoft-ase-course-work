@@ -14,6 +14,7 @@ export default function MyAccountPage() {
 
 
 const [email, setEmail] = useState("");
+const [phone, setPhone] = useState("");
 const [currentPassword, setCurrentPassword] = useState("");
 const [newPassword, setNewPassword] = useState("");
 const [confirmPassword, setConfirmPassword] = useState("");
@@ -113,6 +114,7 @@ const handleSaveChanges = async () => {
               />
             </div>
 
+            
             <div>
               <label className="text-sm">Email Address</label>
               <input
@@ -125,11 +127,15 @@ const handleSaveChanges = async () => {
 
             <div>
               <label className="text-sm">Phone Number</label>
-              <input
-                className="w-full border rounded px-3 py-2 mt-1"
-                placeholder="+1 (555) 000-1234"
-              />
-            </div>
+            <input
+            className="w-full border rounded px-3 py-2 mt-1"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="+1 (555) 000-1234"
+            />
+           </div>
+
+            
 
             <div className="col-span-2">
               <label className="text-sm">Default Shipping Address</label>
