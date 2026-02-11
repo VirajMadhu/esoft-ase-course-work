@@ -85,7 +85,7 @@ export default function OrderHistoryPage() {
               <input type="checkbox" /> Last 6 Months
             </label>
             <label className="flex items-center gap-2">
-              <input type="checkbox" /> Year 2023
+              <input type="checkbox" /> Year 2026
             </label>
           </div>
         </aside>
@@ -157,8 +157,7 @@ export default function OrderHistoryPage() {
             <div className="flex gap-2">
               <button className="px-3 py-1 border rounded">‹</button>
               <button className="px-3 py-1 bg-blue-600 text-white rounded">1</button>
-              <button className="px-3 py-1 border rounded">2</button>
-              <button className="px-3 py-1 border rounded">3</button>
+              <button className="px-3 py-1 border rounded">..</button>
               <button className="px-3 py-1 border rounded">›</button>
             </div>
           </div>
