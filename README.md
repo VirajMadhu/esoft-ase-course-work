@@ -55,9 +55,24 @@ pnpm dev
 cd backend
 ```
 
+- Make MySQL Database
+- Make copy of .env.example file and save it as .env inside backend folder
+- Update Your DB credentials and rest of env data
+
+
 - Install dependencies
 ```
 pnpm i
+```
+
+- Run Migrations
+```
+pnpm db:migrate
+```
+
+- Run Seeders
+```
+pnpm db:seed
 ```
 
 - Run application
