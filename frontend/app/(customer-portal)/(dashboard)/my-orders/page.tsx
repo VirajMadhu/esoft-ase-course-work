@@ -26,6 +26,7 @@ export default function OrderHistoryPage() {
   const [orders, setOrders] = useState<any[]>([]);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
+  const [timeframe, setTimeframe] = useState<string | null>(null);
 
   /* FETCH FROM BACKEND */
   useEffect(() => {
@@ -35,16 +36,31 @@ export default function OrderHistoryPage() {
   }, []);
 
   /* FILTER LOGIC */
-  const filteredOrders = orders.filter((order) => {
-    const matchSearch = order.order_number
-      .toLowerCase()
-      .includes(search.toLowerCase());
+const filteredOrders = orders.filter((order) => {
+  // Search by order number
+  const matchSearch = order.order_number
+    .toLowerCase()
+    .includes(search.toLowerCase());
 
-    const matchStatus =
-      statusFilter === 'All' || order.status === statusFilter;
+  // Status filter
+  const matchStatus =
+    statusFilter === 'All' || order.status === statusFilter;
 
-    return matchSearch && matchStatus;
-  });
+  // Timeframe filter
+  let matchTimeframe = true;
+
+  if (timeframe) {
+    const orderDate = new Date(order.createdAt);
+    const now = new Date();
+
+    const diffDays =
+      (now.getTime() - orderDate.getTime()) / (1000 * 60 * 60 * 24);
+
+    matchTimeframe = diffDays <= Number(timeframe);
+  }
+
+  return matchSearch && matchStatus && matchTimeframe;
+});
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -79,14 +95,30 @@ export default function OrderHistoryPage() {
           <h3 className="text-xs font-semibold text-gray-500 mb-3">TIMEFRAME</h3>
           <div className="space-y-2 text-sm text-gray-600">
             <label className="flex items-center gap-2">
-              <input type="checkbox" /> Last 30 Days
-            </label>
+  <input
+    type="radio"
+    name="timeframe"
+    onChange={() => setTimeframe("30")}
+  />
+  Last 30 Days
+</label>
+
+<label className="flex items-center gap-2">
+  <input
+    type="radio"
+    name="timeframe"
+    onChange={() => setTimeframe("180")}
+  />
+  Last 6 Months
+</label>
             <label className="flex items-center gap-2">
-              <input type="checkbox" /> Last 6 Months
-            </label>
-            <label className="flex items-center gap-2">
-              <input type="checkbox" /> Year 2026
-            </label>
+  <input
+    type="radio"
+    name="timeframe"
+    onChange={() => setTimeframe("360")}
+  />
+  Year 2025
+</label>
           </div>
         </aside>
 
