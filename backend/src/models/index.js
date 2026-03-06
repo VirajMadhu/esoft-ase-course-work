@@ -6,6 +6,8 @@ import Order from "./Order.js";
 import User from "./User.js";
 import Token from "./Token.js";
 import CustomerShippingAddress from "./CustomerShippingAddress.js";
+import RetailCustomer from "./RetailCustomer.js";
+import OrderItem from "./OrderItem.js";
 
 const db = {
   sequelize,
@@ -16,6 +18,8 @@ const db = {
   User,
   Token,
   CustomerShippingAddress,
+  RetailCustomer,
+  OrderItem,
 };
 
 // Call associate after all models are imported

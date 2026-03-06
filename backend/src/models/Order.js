@@ -8,6 +8,7 @@ const Order = sequelize.define(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+      allowNull: false,
     },
     user_id: {
       type: DataTypes.INTEGER,
@@ -16,13 +17,20 @@ const Order = sequelize.define(
     order_number: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     description: {
       type: DataTypes.STRING,
       allowNull: true,
     },
     status: {
-      type: DataTypes.ENUM("PENDING", "PAID", "SHIPPED", "CANCELLED"),
+      type: DataTypes.ENUM(
+        "PENDING",
+        "PAID",
+        "SHIPPED",
+        "CANCELLED",
+        "DELIVERED",
+      ),
       allowNull: false,
       defaultValue: "PENDING",
     },
@@ -33,10 +41,12 @@ const Order = sequelize.define(
     tax: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
+      defaultValue: 0.0,
     },
     discount: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
+      defaultValue: 0.0,
     },
     total_amount: {
       type: DataTypes.DECIMAL(10, 2),
@@ -50,8 +60,14 @@ const Order = sequelize.define(
 );
 
 Order.associate = (models) => {
-  Order.belongsTo(models.User, {
+  Order.belongsTo(models.RetailCustomer, {
     foreignKey: "user_id",
+    as: "customer",
+  });
+
+  Order.hasMany(models.OrderItem, {
+    foreignKey: "orderId",
+    as: "items",
   });
 };
 

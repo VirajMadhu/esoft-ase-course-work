@@ -4,6 +4,7 @@
 const products = [
   {
     id: 1,
+    sku: "HON-ORG-500",
     name: "Sparkling Mineral Water",
     categoryId: 2,
     price: 180,
@@ -14,6 +15,7 @@ const products = [
   },
   {
     id: 2,
+    sku: "HON-ORG-550",
     name: "Tropical Mango Juice",
     categoryId: 4,
     price: 120,
@@ -24,6 +26,7 @@ const products = [
   },
   {
     id: 3,
+    sku: "HON-ORG-400",
     name: "Island Zap Energy",
     categoryId: 1,
     price: 250,
@@ -34,6 +37,7 @@ const products = [
   },
   {
     id: 4,
+    sku: "HON-ORG-580",
     name: "Highland Arabica Beans",
     categoryId: 3,
     price: 250,
@@ -44,6 +48,7 @@ const products = [
   },
   {
     id: 5,
+    sku: "HON-ORG-450",
     name: "Organic Apple Juice",
     categoryId: 4,
     price: 150,
@@ -54,6 +59,7 @@ const products = [
   },
   {
     id: 6,
+    sku: "HON-ORG-300",
     name: "Coca Cola Classic",
     categoryId: 1,
     price: 200,
@@ -64,6 +70,7 @@ const products = [
   },
   {
     id: 7,
+    sku: "HON-ORG-800",
     name: "Peach Iced Tea",
     categoryId: 4,
     price: 130,
@@ -74,6 +81,7 @@ const products = [
   },
   {
     id: 8,
+    sku: "HON-ORG-850",
     name: "Espresso Ground Coffee",
     categoryId: 3,
     price: 300,
@@ -84,6 +92,7 @@ const products = [
   },
   {
     id: 9,
+    sku: "HON-ORG-900",
     name: "Green Tea Bags",
     categoryId: 3,
     price: 180,
@@ -94,6 +103,7 @@ const products = [
   },
   {
     id: 10,
+    sku: "HON-ORG-599",
     name: "Lemon Sparkling Water",
     categoryId: 2,
     price: 175,

@@ -6,6 +6,7 @@ import constantDataRouter from "./constant-data.routes.js";
 import authRouter from "./auth.routes.js";
 import ordersRouter from "./orders.routes.js";
 import staffRouter from "./staff.routes.js";
+import inventoryRouter from "./inventory.routes.js";
 
 const router = express.Router();
 
@@ -17,5 +18,6 @@ router.use("/users", usersRouter);
 router.use("/products", productsRouter);
 router.use("/constants", constantDataRouter);
 router.use("/orders", ordersRouter);
+router.use("/inventory", inventoryRouter);
 
 export default router;
