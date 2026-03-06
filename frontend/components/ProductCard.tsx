@@ -34,6 +34,12 @@ export function ProductCard({
           text: "Out of Stock",
           textColor: "text-red-600",
         };
+      default:
+        return {
+          color: "bg-slate-500",
+          text: "Unknown Status",
+          textColor: "text-slate-600",
+        };
     }
   };
 

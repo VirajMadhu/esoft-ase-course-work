@@ -246,9 +246,9 @@ const UsersPage = () => {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
                                                 <div className="h-9 w-9 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm mr-3 uppercase">
-                                                    {staff.name.charAt(0)}
+                                                    {(staff.name || staff.email || "?").charAt(0)}
                                                 </div>
-                                                <span className="text-sm font-semibold text-slate-900">{staff.name}</span>
+                                                <span className="text-sm font-semibold text-slate-900">{staff.name || "Unknown User"}</span>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
