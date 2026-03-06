@@ -72,6 +72,21 @@ export async function getAllProducts({
       subQuery: false,
     });
 
+    const getProductStatus = (product) => {
+      const stockCount = Number(product.get("stockCount")) || 0;
+      
+      // If db status is already valid for frontend, use it
+      const validStatuses = ["IN_STOCK", "LOW_STOCK", "OUT_OF_STOCK"];
+      if (validStatuses.includes(product.status)) {
+        return product.status;
+      }
+
+      // Otherwise map based on stock count
+      if (stockCount <= 0) return "OUT_OF_STOCK";
+      if (stockCount <= 10) return "LOW_STOCK";
+      return "IN_STOCK";
+    };
+
     return {
       data: products.map((product) => ({
         id: product.id,
@@ -79,7 +94,7 @@ export async function getAllProducts({
         price: product.price,
         unit: product.unit,
         image: product.image,
-        status: product.status,
+        status: getProductStatus(product),
         badge: product.badge,
         stockCount: Number(product.get("stockCount")) || 0,
         category: product.category,
