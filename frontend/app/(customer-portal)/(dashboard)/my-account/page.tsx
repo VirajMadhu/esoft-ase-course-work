@@ -45,12 +45,17 @@ const handlePasswordUpdate = async () => {
     return;
   }
 
-  await changePassword({ currentPassword, newPassword });
-  alert("Password updated successfully");
+ try {
+    const res = await changePassword({ currentPassword, newPassword });
 
-  setCurrentPassword("");
-  setNewPassword("");
-  setConfirmPassword("");
+    alert(res.message || "Password updated successfully");
+
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+  } catch (err: any) {
+    alert(err.message || "Incorrect current password");
+  }
 };
 
 const handleSaveChanges = async () => {
